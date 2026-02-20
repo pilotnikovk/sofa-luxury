@@ -1,6 +1,10 @@
 import { FC } from 'hono/jsx'
 
-export const SofaLanding: FC = () => {
+interface SofaLandingProps {
+  sofas: any[]
+}
+
+export const SofaLanding: FC<SofaLandingProps> = ({ sofas }) => {
   return (
     <div className="bg-[#FAFAFA] text-[#1A1A1A] font-sans selection:bg-orange-200">
       {/* Navigation */}
@@ -33,7 +37,7 @@ export const SofaLanding: FC = () => {
             </p>
             <div className="flex gap-6">
               <a href="#collection" className="bg-[#1A1A1A] text-white px-10 py-5 rounded-2xl text-lg font-bold shadow-2xl hover:bg-neutral-800 transition-colors">
-                Смотреть 15 моделей
+                Смотреть коллекцию
               </a>
               <button className="bg-white border-2 border-neutral-200 px-10 py-5 rounded-2xl text-lg font-bold hover:bg-neutral-50 transition-colors">
                 Каталог тканей
@@ -86,31 +90,31 @@ export const SofaLanding: FC = () => {
             <h2 className="text-5xl font-extrabold tracking-tight">
               Коллекция 2026<span className="text-[#FF6B00]">.</span>
             </h2>
-            <div className="text-neutral-400 font-bold uppercase tracking-widest text-sm">15 моделей</div>
+            <div className="text-neutral-400 font-bold uppercase tracking-widest text-sm">{sofas.length} моделей</div>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              { name: 'Milano Edition', price: '124 000', img: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?w=600' },
-              { name: 'Nordic Minimal', price: '98 000', img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600' },
-              { name: 'Genoa Comfort', price: '145 000', img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600' }
-            ].map((item) => (
+            {sofas.length > 0 ? sofas.map((item) => (
               <div className="group cursor-pointer">
                 <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden mb-8 shadow-lg bg-neutral-200">
                   <img 
-                    src={item.img} 
+                    src={item.image_url} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                   />
                   <div className="absolute bottom-8 left-8 right-8">
                     <button className="w-full py-5 bg-white text-black font-bold rounded-2xl shadow-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                      Узнать больше
+                      Узнать цену
                     </button>
                   </div>
                 </div>
                 <h3 className="text-2xl font-bold mb-2 uppercase tracking-tighter">{item.name}</h3>
-                <div className="text-neutral-400 font-medium">от {item.price} ₽</div>
+                <div className="text-neutral-400 font-medium">от {item.price.toLocaleString()} ₽</div>
               </div>
-            ))}
+            )) : (
+              <div className="col-span-full text-center py-20 text-neutral-400">
+                Коллекция наполняется... загляните в <a href="/admin" class="text-black underline">админку</a>
+              </div>
+            )}
           </div>
         </div>
       </section>
